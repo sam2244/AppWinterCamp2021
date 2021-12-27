@@ -8,7 +8,6 @@ import 'login.dart';
 bool current = false;
 var las;
 var long;
-int _selectedIndex = 3;
 
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -18,6 +17,7 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+  int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _MyPageState extends State<MyPage> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Pages'),
+              child: Text(''),
             ),
             ListTile(
               leading: Icon(Icons.logout),
@@ -43,9 +43,26 @@ class _MyPageState extends State<MyPage> {
           ],
         ),
       ),
-        appBar: AppBar(
-          title: const Text('Winter App'),
-        ),
+      body: SafeArea(
+        top: false,
+          child: CustomScrollView(slivers:[
+            SliverAppBar(
+                pinned: true,
+                expandedHeight: 80.0,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text('Winter App',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                  )),
+                  /*background:
+                  Image.network('https://r-cf.bstatic.com/images/hotel/max1024x768/116/116281457.jpg',
+                    fit: BoxFit.fitWidth,
+                  ),*/
+                )
+            ),
+          ]),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         iconSize: 25,
@@ -61,10 +78,6 @@ class _MyPageState extends State<MyPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.camera),
             label: '전체 방 보기',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: '대기방',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera),
@@ -87,10 +100,6 @@ class _MyPageState extends State<MyPage> {
       );
     }
     else if(index == 2){
-      Navigator.pushNamed(context, '/chat',
-      );
-    }
-    else if(index == 3){
       Navigator.pushNamed(context, '/mypage',
       );
     }
