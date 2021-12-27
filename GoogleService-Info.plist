@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>955867577402-sjkm0app04jp356upuvkaqrm9f26nn7g.apps.googleusercontent.com</string>
+	<string>555970896582-9nokaobj7rfu7cmqb8u624d8bp7rs34n.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.955867577402-sjkm0app04jp356upuvkaqrm9f26nn7g</string>
+	<string>com.googleusercontent.apps.555970896582-9nokaobj7rfu7cmqb8u624d8bp7rs34n</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCoy6FxV9yj4dPJPI88ik1elBJxG60wqgQ</string>
+	<string>AIzaSyCT_Li8oNtz5u_QSADCYTO9uypYVZ-SzSM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>955867577402</string>
+	<string>555970896582</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.teamProjectCOVID19</string>
+	<string>com.example.teamProjectWinter</string>
 	<key>PROJECT_ID</key>
-	<string>madteamproject</string>
+	<string>appteamproject2021winter</string>
 	<key>STORAGE_BUCKET</key>
-	<string>madteamproject.appspot.com</string>
+	<string>appteamproject2021winter.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:955867577402:ios:d943af5c9e91e3a2400903</string>
+	<string>1:555970896582:ios:32d9b1aaea4cb98111adc7</string>
 </dict>
 </plist>
