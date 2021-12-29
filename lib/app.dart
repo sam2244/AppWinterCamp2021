@@ -4,6 +4,8 @@ import 'chat.dart';
 import 'home.dart';
 import 'mypage.dart';
 import 'makeroom.dart';
+import 'search.dart';
+import 'colors.dart';
 
 class ShrineApp extends StatelessWidget {
   const ShrineApp({Key? key}) : super(key: key);
@@ -11,14 +13,10 @@ class ShrineApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Winter App',
+      title: '가치모여',
       home: const LoginPage(),
       theme: ThemeData(
-          primaryColor: const Color(0xFF03A9F4),
-          primaryColorDark: const Color(0xFF2A9D8F),
-          primaryColorLight: const Color(0xFFFFFFFF),
-          accentColor: const Color(0xFFFFFFFF),
-          backgroundColor: const Color(0xFFFFFFFF)
+          primaryColor: Primary,
       ),
       initialRoute: '/',
       routes: {
@@ -26,6 +24,7 @@ class ShrineApp extends StatelessWidget {
         '/chat' : (context) => const ChatPage (),
         '/home' : (context) => const HomePage (),
         '/mypage' : (context) => MyPage (),
+        '/search' : (context) => SearchPage (),
         '/makeroom' : (context) => MakeroomPage (),
       },
       onGenerateRoute: _getRoute,

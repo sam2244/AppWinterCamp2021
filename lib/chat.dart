@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';
+import 'colors.dart';
+
 bool isEdit = false;
 TextEditingController _editingController =TextEditingController(text: initialText);
 String initialText = "";
@@ -27,21 +29,39 @@ class _ChatPageState extends State<ChatPage> {
     final fb = FirebaseFirestore.instance;
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Winter App'),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: new Icon(Icons.arrow_back_ios_new_rounded),
+          color: OnBackground,
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: Column(children: <Widget>[
-          //Image.asset('assets/codelab.png'),
-          const SizedBox(height: 8),
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
+        title: const Text('대화방',
+            style: TextStyle(
+                color: OnBackground
+            )
+        ),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.settings),
+            color: OnBackground,
+            onPressed: () {
+              signOut();
+              Navigator.pushNamed(context, '/login',);
+            },
           ),
-          Expanded(child:
-            StreamBuilder<QuerySnapshot>(
+        ],
+        backgroundColor: Bar,
+        centerTitle: true,
+      ),
+      //backgroundColor: ChatBackground,
+      backgroundColor: Background,
+      body: Column(children: <Widget>[
+          //Image.asset('assets/codelab.png'),
+        const SizedBox(height: 8),
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
               stream: fb.collection("chats").snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) return Text('Error: ${snapshot.error}');
@@ -143,15 +163,8 @@ class _ChatPageState extends State<ChatPage> {
               },
             ),
           ),
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
-          ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(25.0),
             child: Form(
               key: _formKey,
               child: Row(
@@ -160,31 +173,28 @@ class _ChatPageState extends State<ChatPage> {
                     child: TextFormField(
                       controller: _controller,
                       decoration: const InputDecoration(
-                        hintText: 'Leave a message',
+                        //filled: true,
+                        fillColor: Colors.white,
+                        hintText: '메세지를 입력하세요',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please Enter the message';
+                          return '메세지를 입력하세요';
                         }
                         return null;
                       },
                     ),
                   ),
                   const SizedBox(width: 8),
-                  ElevatedButton(
+                  IconButton(
+                    icon: new Icon(Icons.arrow_upward),
+                    color: Primary,
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         await addMessage(_controller.text);
                         _controller.clear();
                       }
                     },
-                    child: Row(
-                      children: const [
-                        Icon(Icons.send),
-                        SizedBox(width: 4),
-                        Text('SEND'),
-                      ],
-                    ),
                   ),
                 ],
               ),

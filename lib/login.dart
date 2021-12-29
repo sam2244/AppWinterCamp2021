@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'colors.dart';
+
 String uid = "";
 String uid_google = "";
 String name_user= "";
@@ -11,19 +13,16 @@ String email_user = "";
 String url_user = "";
 
 Future<UserCredential> signInWithAnonynous() async {
-
   return FirebaseAuth.instance.signInAnonymously();
 }
+
 Future<UserCredential> signInWithGoogle() async {
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
   final credential = GoogleAuthProvider.credential(
     accessToken: googleAuth?.accessToken,
     idToken: googleAuth?.idToken,
   );
-
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }
 
@@ -35,8 +34,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
   bool _flag = true;
   @override
   Widget build(BuildContext context) {
@@ -50,14 +47,14 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.fromLTRB(50.0,160.0,50.0,10.0),
               child: Column(
                 children: <Widget>[
-                  //Image.asset('assets/chat.png'),
+                  //Image.asset('assets/.png'),
                   const SizedBox(height: 10.0),
-                  Text('Winter App', style: TextStyle(
-                    fontSize: 40,
+                  Text('가치모여', style: TextStyle(
+                    fontSize: 55,
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = 3
-                      ..color = Colors.blue[500]!,
+                      ..color = Primary,
                   ),
                   ),
                   const SizedBox(height: 30.0),
@@ -76,20 +73,18 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ElevatedButton(
-                        child: Text('Google Login',style: TextStyle(
-                          color: Colors.white,
-                        ),),
-
+                        style: ElevatedButton.styleFrom(
+                          primary: Primary, // background
+                          onPrimary: Colors.white, // foreground
+                        ),
                         onPressed: ()  async{
                           await signInWithGoogle();
                           setUserinfo();
                           setState(() => _flag = !_flag);
-                          style: ElevatedButton.styleFrom(
-                            primary: _flag ? Colors.blue : Colors.teal, // This is what you need!
-                          );
                           Navigator.pushNamed(context, '/home',);
                         },
-                      ),
+                        child: Text('Google Login'),
+                      )
                     ],
                   ),
                 ],

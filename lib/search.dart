@@ -6,25 +6,26 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'colors.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
-  _MyPageState createState() => _MyPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _SearchPageState extends State<SearchPage> {
+  int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*drawer: Drawer(
+      drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Primary,
+                color: Colors.blue,
               ),
               child: Text(''),
             ),
@@ -38,30 +39,13 @@ class _MyPageState extends State<MyPage> {
             ),
           ],
         ),
-      ),*/
+      ),
       appBar: AppBar(
-        leading: IconButton(
-          icon: new Icon(Icons.arrow_back_ios_new_rounded),
-          color: OnBackground,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text('마이페이지',
+        title: const Text('방 검색',
             style: TextStyle(
                 color: OnBackground
             )
         ),
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
-            color: OnBackground,
-            onPressed: () {
-              signOut();
-              Navigator.pushNamed(context, '/login',);
-            },
-          ),
-        ],
         backgroundColor: Bar,
         centerTitle: true,
       ),

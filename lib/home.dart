@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'login.dart';
+import 'colors.dart';
 
 final _fireStore = FirebaseFirestore.instance;
 final _fireAuth = FirebaseAuth.instance;
@@ -30,13 +32,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
+      /*drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Primary,
               ),
               child: Text(''),
             ),
@@ -50,19 +52,32 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
+      ),*/
       appBar: AppBar(
-        title: Text("Winter App"),
+        leading: Icon(Icons.settings),
+        title: const Text('가치모여',
+            style: TextStyle(
+                color: OnBackground
+            )
+        ),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.account_circle_outlined),
+            color: OnBackground,
+            onPressed: () {
+              Navigator.pushNamed(context, '/mypage',);
+            },
+          ),
+        ],
+        backgroundColor: Bar,
         centerTitle: true,
-        actions: [
-          ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         iconSize: 20,
         selectedFontSize: 12,
-        selectedIconTheme: IconThemeData(color: Color(0xFF03A9F4), size: 30),
-        selectedItemColor: Color(0xFF03A9F4),
+        selectedIconTheme: IconThemeData(color: Primary, size: 30),
+        selectedItemColor: Primary,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         items: const <BottomNavigationBarItem>[
 
@@ -107,19 +122,6 @@ class _HomePageState extends State<HomePage> {
       Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomRight,
-              stops: [
-                0.8,
-                0.99,
-              ],
-              colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).backgroundColor,
-              ]),
-        ),
           child: Container(
             margin: EdgeInsets.all(10),
             child: Column(
@@ -132,21 +134,20 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: _RoomPanel(
-                        title: "대화방1",
-                        value: '인원: 2/4',
+                        title: "상담",
+                        value: '오늘 하루도 수고했어요:)\n#위로 #음악공유 #수고했어\n최대인원: 2/4',
                         textStyle: TextStyle(
                           fontSize: 15,
-                          color: Theme.of(context).accentColor,
+                          color: TextBig,
                         ), key: const Key("2"),
                       ),
                     ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 15),
-                      ),
-                      onPressed: () {Navigator.pushNamed(context, '/chat',);
+                    IconButton(
+                      icon: new Icon(Icons.meeting_room),
+                      color: Primary,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/chat',);
                       },
-                      child: const Text('입장하기'),
                     ),
                   ],
                 ),
@@ -175,7 +176,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future signOut() async {
-    // Trigger the authentication flow
     final FirebaseAuth auth = await FirebaseAuth.instance;
     await auth.signOut();
     uid = "";
@@ -241,28 +241,20 @@ class _RoomPanelState extends State<_RoomPanel> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(3),
+      margin: const EdgeInsets.all(2),
       padding: const EdgeInsets.all(10),
-      height: 95,
+      height: 100,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              stops: const [0.7, 0.9],
-
               colors: [
                 Theme.of(context).primaryColor,
                 Theme.of(context).primaryColor.withAlpha(180),
               ],
               tileMode: TileMode.repeated),
-          boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).backgroundColor,
-                offset: const Offset(5, 5),
-                blurRadius: 5,
-                spreadRadius: 1),
-          ]),
+      ),
       child: Column(
         children: [
           Container(
@@ -271,9 +263,8 @@ class _RoomPanelState extends State<_RoomPanel> {
             child: Text(
               widget.title,
               style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+                color: TextBig,
+                fontSize: 13,
               ),
             ),
           ),
@@ -287,10 +278,4 @@ class _RoomPanelState extends State<_RoomPanel> {
       ),
     );
   }
-}
-class ScreenArgument{
-  final int chartPlot1;
-  final int chartPlot2;
-  final int chartPlot3;
-  ScreenArgument(this.chartPlot1, this.chartPlot2,this.chartPlot3);
 }
