@@ -43,25 +43,11 @@ class _MyPageState extends State<MyPage> {
           ],
         ),
       ),
-      body: SafeArea(
-        top: false,
-          child: CustomScrollView(slivers:[
-            SliverAppBar(
-                pinned: true,
-                expandedHeight: 80.0,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text('Winter App',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                  )),
-                  /*background:
-                  Image.network('https://r-cf.bstatic.com/images/hotel/max1024x768/116/116281457.jpg',
-                    fit: BoxFit.fitWidth,
-                  ),*/
-                )
-            ),
-          ]),
+      appBar: AppBar(
+        title: Text("Winter App"),
+        centerTitle: true,
+        actions: [
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

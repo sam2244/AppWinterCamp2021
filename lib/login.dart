@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // new
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -87,8 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             primary: _flag ? Colors.blue : Colors.teal, // This is what you need!
                           );
-                          Navigator.pushNamed(context, '/home',
-                          );
+                          Navigator.pushNamed(context, '/home',);
                         },
                       ),
                     ],
@@ -102,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   Future setUserinfo() async{
-
     final User? user_login = FirebaseAuth.instance.currentUser;
     final firestoreInstance = FirebaseFirestore.instance;
     final QuerySnapshot result =

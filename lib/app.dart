@@ -18,7 +18,8 @@ class ShrineApp extends StatelessWidget {
           primaryColorDark: const Color(0xFF2A9D8F),
           primaryColorLight: const Color(0xFFFFFFFF),
           accentColor: const Color(0xFFFFFFFF),
-          backgroundColor: const Color(0xFFFFFFFF)),
+          backgroundColor: const Color(0xFFFFFFFF)
+      ),
       initialRoute: '/',
       routes: {
         '/login': (context) => const LoginPage (),

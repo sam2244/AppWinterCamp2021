@@ -1,13 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
+
+final _fireStore = FirebaseFirestore.instance;
+final _fireAuth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
+}
+
+class NoteModel{
+  String title;
+  String content;
+
+  NoteModel({
+    required this.title,
+    required this.content,
+  });
 }
 
 class _HomePageState extends State<HomePage> {
@@ -24,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Pages'),
+              child: Text(''),
             ),
             ListTile(
               leading: Icon(Icons.logout),
@@ -42,7 +56,6 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           ],
-
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -63,17 +76,35 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera),
-            label: '대기방',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
             label: '마이페이지',
           ),
         ],
         currentIndex: _selectedIndex, //New
         onTap: _onItemTapped,
       ),
-      body: Container(
+      body:
+      //getGroupsWidget(),
+      /*StreamBuilder<QuerySnapshot>(
+        stream: _fireStore.collection('rooms').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child:
+              CircularProgressIndicator(),
+            );
+          } else
+            return ListView(
+              children: snapshot.data.docs.map((doc) {
+                return Card(
+                  child: ListTile(
+                    title: Text(doc.data()['title']),
+                  ),
+                );
+              }).toList(),
+            );
+        },
+      ),*/
+      Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
@@ -89,17 +120,41 @@ class _HomePageState extends State<HomePage> {
                 Theme.of(context).backgroundColor,
               ]),
         ),
-        child: Container(
-          margin: EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-            ],
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: _RoomPanel(
+                        title: "대화방1",
+                        value: '인원: 2/4',
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).accentColor,
+                        ), key: const Key("2"),
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {Navigator.pushNamed(context, '/chat',);
+                      },
+                      child: const Text('입장하기'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
   void _onItemTapped(int index) {
     if(index == 0){
@@ -111,10 +166,6 @@ class _HomePageState extends State<HomePage> {
       );
     }
     else if(index == 2){
-      Navigator.pushNamed(context, '/chat',
-      );
-    }
-    else if(index == 3){
       Navigator.pushNamed(context, '/mypage',
       );
     }
@@ -135,19 +186,58 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+/*Widget getGroupsWidget() {
+  return FutureBuilder(
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) {
+        return Center(child: CircularProgressIndicator());
+      }
+      return ListView.builder(
+        itemBuilder: (context, index) {
+          DocumentSnapshot document = snapshot.data.docs[index];
 
-class _CovidItemPanel extends StatefulWidget {
-  _CovidItemPanel({required Key key, required this.title, required this.value, required this.textStyle}): super(key: key);
+          return ListTile(
+              contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              leading: const Icon(Icons.group),
+              title: Text(document.data()["title"]),
+              subtitle: Text(""),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChatScreen(groupId: document.data()["id"]),
+                  ),
+                );
+              });
+        },
+        itemCount: snapshot.data.docs.length,
+      );
+    },
+    future: loadGroups(),
+  );
+}
+
+Future loadGroups() async {
+  return await _fireStore
+      .collection("GroupDetail")
+      .where("members", arrayContains: _fireAuth.currentUser.uid)
+      .get();
+}*/
+
+class _RoomPanel extends StatefulWidget {
+  _RoomPanel({required Key key, required this.title, required this.value, required this.textStyle}): super(key: key);
 
   String title;
   String value;
   TextStyle textStyle;
 
   @override
-  _CovidItemPanelState createState() => _CovidItemPanelState();
+  _RoomPanelState createState() => _RoomPanelState();
 }
 
-class _CovidItemPanelState extends State<_CovidItemPanel> {
+class _RoomPanelState extends State<_RoomPanel> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,7 +279,6 @@ class _CovidItemPanelState extends State<_CovidItemPanel> {
           ),
           Expanded(
             child: Text(
-              // "abasd",
               widget.value,
               style: widget.textStyle,
             ),

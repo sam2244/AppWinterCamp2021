@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'login.dart';
 bool isEdit = false;
 TextEditingController _editingController =TextEditingController(text: initialText);
 String initialText = "";
-int _selectedIndex = 2;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -19,41 +16,17 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-
-
   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    _selectedIndex = 2;
 
-    String comments = "";
-    String local_comments = "";
+    String chats = "";
+    String local_chats = "";
     final fb = FirebaseFirestore.instance;
 
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Pages'),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: const Text('Log Out'),
-              onTap: () {
-                signOut();
-                Navigator.pushNamed(context, '/login');
-              },
-            ),
-          ],
-        ),
-      ),
         appBar: AppBar(
           title: const Text('Winter App'),
         ),
@@ -69,7 +42,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           Expanded(child:
             StreamBuilder<QuerySnapshot>(
-              stream: fb.collection("comments").snapshots(),
+              stream: fb.collection("chats").snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) return Text('Error: ${snapshot.error}');
                 //   if (!(snapshot.hasError)) {
@@ -82,7 +55,7 @@ class _ChatPageState extends State<ChatPage> {
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: (context, index) {
                     if ((snapshot.data?.docs[index]['userId'] == uid_google)) {
-                      String comments = (snapshot.data?.docs[index]['text'])
+                      String chats = (snapshot.data?.docs[index]['text'])
                           .toString();
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,19 +70,13 @@ class _ChatPageState extends State<ChatPage> {
                                 const SizedBox(width: 8),
                                 isEdit ? Expanded(
                                   child: TextField(
-                                    controller: TextEditingController(text: comments),
+                                    controller: TextEditingController(text: chats),
                                     onChanged: (newValue){
-                                      //setState(() {
-                                        local_comments = newValue;
-                                       // isEdit =!isEdit;
+                                        local_chats = newValue;
                                       }
-                                      //);
-                                   // },
-                                    //autofocus: true,
-
                                   ),
-                                ) /* Text(comments)*/
-                                :Text(comments)
+                                )
+                                :Text(chats)
                               ]),
                             ),
                           ),
@@ -118,7 +85,7 @@ class _ChatPageState extends State<ChatPage> {
                             TextButton(
                               child: const Text('save'),
                               onPressed: () async {
-                                await updateStatus(local_comments);
+                                await updateStatus(local_chats);
                                 setState(() {
                                   isEdit = !isEdit;
                                 });
@@ -184,7 +151,7 @@ class _ChatPageState extends State<ChatPage> {
             color: Colors.grey,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: Form(
               key: _formKey,
               child: Row(
@@ -197,7 +164,7 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter your message to continue';
+                          return 'Please Enter the message';
                         }
                         return null;
                       },
@@ -224,39 +191,11 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
         ]),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-      iconSize: 25,
-      selectedFontSize: 15,
-      selectedIconTheme: IconThemeData(color: Color(0xFF03A9F4), size: 30),
-      selectedItemColor: Color(0xFF03A9F4),
-      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.camera),
-          label: '방만들기',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.camera),
-          label: '전체 방 보기',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.camera),
-          label: '대기방',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.camera),
-          label: '마이페이지',
-        ),
-      ],
-      currentIndex: _selectedIndex, //New
-      onTap: _onItemTapped,
-    ),);
-
+      );
   }
 
   Future addMessage(String text) async {
-    await FirebaseFirestore.instance.collection("comments").add({
+    await FirebaseFirestore.instance.collection("chats").add({
       "text": text,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
@@ -286,23 +225,21 @@ class _ChatPageState extends State<ChatPage> {
               onPressed: () async {
                 print('Confirmed');
                 final QuerySnapshot result = await FirebaseFirestore.instance
-                    .collection('comments')
+                    .collection('chats')
                     .get();
                 final List<DocumentSnapshot> documents = result.docs;
                 String targetDoc = "";
                 String creatorUID = "";
-                String targetImage = "";
                 documents.forEach((data) {
                   if (data['email'] == email_user) {
                     targetDoc = data.id;
                     creatorUID = data['userId'];
-                    // targetImage = data['basename'];
                   }
                 });
                 if (creatorUID == uid_google) {
                   var firebaseUser = FirebaseAuth.instance.currentUser;
                   FirebaseFirestore.instance
-                      .collection("comments")
+                      .collection("chats")
                       .doc(targetDoc)
                       .delete()
                       .then((data) {
@@ -330,7 +267,7 @@ class _ChatPageState extends State<ChatPage> {
   Future updateStatus(String text) async{
     final firestoreInstance = FirebaseFirestore.instance;
     final QuerySnapshot result =
-    await firestoreInstance.collection('comments').get();
+    await firestoreInstance.collection('chats').get();
     final List<DocumentSnapshot> documents = result.docs;
     final User user_uid = FirebaseAuth.instance.currentUser!;
     String targetDoc = "";
@@ -341,34 +278,13 @@ class _ChatPageState extends State<ChatPage> {
     print(user_uid.uid);
     var firebaseUser = FirebaseAuth.instance.currentUser;
     firestoreInstance
-        .collection("comments")
+        .collection("chats")
         .doc(targetDoc)
         .update({"text": text}).then((_) {
       print("success!");
     });
 
     // Navigator.pop(context);
-  }
-  void _onItemTapped(int index) {
-    if(index == 0){
-      Navigator.pushNamed(context, '/makeroom',
-      );
-    }
-    else if(index == 1){
-      Navigator.pushNamed(context, '/home',
-      );
-    }
-    else if(index == 2){
-      Navigator.pushNamed(context, '/chat',
-      );
-    }
-    else if(index == 3){
-      Navigator.pushNamed(context, '/mypage',
-      );
-    }
-    setState(() {
-      _selectedIndex = index;
-    });
   }
   Future signOut() async {
     // Trigger the authentication flow
