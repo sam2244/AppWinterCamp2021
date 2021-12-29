@@ -20,6 +20,7 @@ dependencies:
   google_maps_flutter:
   geolocator:
   url_launcher:
+  custom_radio_grouped_button: any
 
   flutter:
     sdk: flutter
