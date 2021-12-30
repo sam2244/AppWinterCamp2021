@@ -12,6 +12,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   firebase_storage:
+  firebase_analytics:
   cloud_firestore:
   provider:
   google_sign_in:
@@ -35,8 +36,12 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/bird.png
-    - assets/diamond.png
-    - assets/bangyeok.png
+    - assets/chat.png
+    - assets/icon.png
+    - assets/appicon.png
+    - assets/chatroom.png
+    - assets/search.png
+    - assets/logo.png
+    - assets/wait.png
 
   uses-material-design: true
