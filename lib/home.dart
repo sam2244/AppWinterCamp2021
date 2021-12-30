@@ -1,13 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'login.dart';
 import 'colors.dart';
-
-final _fireStore = FirebaseFirestore.instance;
-final _fireAuth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,7 +21,7 @@ class NoteModel{
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1;
+  //AnimationController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -72,31 +66,30 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Bar,
         centerTitle: true,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        iconSize: 20,
-        selectedFontSize: 12,
-        selectedIconTheme: IconThemeData(color: Primary, size: 30),
-        selectedItemColor: Primary,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        items: const <BottomNavigationBarItem>[
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: '방만들기',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: '전체 방 보기',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: '마이페이지',
-          ),
-        ],
-        currentIndex: _selectedIndex, //New
-        onTap: _onItemTapped,
+      floatingActionButton:
+      Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "searchbutton",
+              onPressed: () {
+                Navigator.pushNamed(context, '/search',);
+                },
+              backgroundColor: Secondary,
+              child: const Icon(Icons.search),
+            ),
+            const SizedBox(height: 20),
+            FloatingActionButton(
+              heroTag: "makeroombutton",
+              onPressed: () {
+                Navigator.pushNamed(context, '/makeroom',);
+              },
+              backgroundColor: Secondary,
+              child: const Icon(Icons.add),
+            ),
+          ]
       ),
+
       body:
       //getGroupsWidget(),
       /*StreamBuilder<QuerySnapshot>(
@@ -146,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                       icon: new Icon(Icons.meeting_room),
                       color: Primary,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/chat',);
+                        Navigator.pushNamed(context, '/wait',);
                       },
                     ),
                   ],
@@ -156,33 +149,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-  }
-  void _onItemTapped(int index) {
-    if(index == 0){
-      Navigator.pushNamed(context, '/makeroom',
-      );
-    }
-    else if(index == 1){
-      Navigator.pushNamed(context, '/home',
-      );
-    }
-    else if(index == 2){
-      Navigator.pushNamed(context, '/mypage',
-      );
-    }
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  Future signOut() async {
-    final FirebaseAuth auth = await FirebaseAuth.instance;
-    await auth.signOut();
-    uid = "";
-    uid_google = "";
-    name_user = "";
-    email_user = "";
-    url_user = "";
   }
 }
 

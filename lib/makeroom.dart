@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'login.dart';
 import 'colors.dart';
 
 
@@ -14,7 +13,6 @@ class MakeroomPage extends StatefulWidget {
 }
 
 class MakeroomPageState extends State<MakeroomPage > {
-  int _selectedbutton = 0;
   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _titlecontroller = TextEditingController();
   final _maxnumcontroller = TextEditingController();
@@ -22,7 +20,7 @@ class MakeroomPageState extends State<MakeroomPage > {
   final _hashtagcontroller = TextEditingController();
   final int _maxnum = 2;
   final int _maxsec = 60;
-  final int _category = 0;
+  late int _category;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +57,7 @@ class MakeroomPageState extends State<MakeroomPage > {
                 _titlecontroller.clear();
                 _maxnumcontroller.clear();
                 _maxseccontroller.clear();
+                _hashtagcontroller.clear();
               }
             },
             child: const Text('완료'),
@@ -107,7 +106,14 @@ class MakeroomPageState extends State<MakeroomPage > {
                           5,
                         ],
                         defaultSelected: 0,
-                        radioButtonValue: (value) => _selectedbutton,
+                        //radioButtonValue: (value) => print(value),
+                        radioButtonValue: (value) {
+                          setState(() {
+                            _category = value as int;
+                          });
+                          //print(_category);
+                        },
+
                         //_selectedbutton = value.checked,
                         unSelectedColor: Theme.of(context).canvasColor,
                         selectedColor: Theme.of(context).primaryColor,
@@ -148,8 +154,8 @@ class MakeroomPageState extends State<MakeroomPage > {
                           hintText: '예시) #사랑 #믿음 #소망',
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty || int.parse(value) < 30 || int.parse(value) > 300) {
-                            return '30-300 사이의 숫자를 입력해주세요';
+                          if (value == null || value.isEmpty) {
+                            return '해시태그를 다시 입력해주세';
                           }
                           return null;
                         },
@@ -198,16 +204,6 @@ class MakeroomPageState extends State<MakeroomPage > {
       categorytext = "수다";
     }
     return categorytext;
-  }
-
-  Future signOut() async {
-    final FirebaseAuth auth = await FirebaseAuth.instance;
-    await auth.signOut();
-    uid = "";
-    uid_google = "";
-    name_user = "";
-    email_user = "";
-    url_user = "";
   }
 }
 

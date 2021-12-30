@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'wait.dart';
 import 'chat.dart';
 import 'home.dart';
+import 'help.dart';
 import 'mypage.dart';
+import 'editmypage.dart';
 import 'makeroom.dart';
+import 'roomsetting.dart';
 import 'search.dart';
+import 'searchword.dart';
 import 'colors.dart';
 
 class ShrineApp extends StatelessWidget {
@@ -21,11 +26,16 @@ class ShrineApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/login': (context) => const LoginPage (),
-        '/chat' : (context) => const ChatPage (),
+        '/wait' : (context) => const WaitPage (),
         '/home' : (context) => const HomePage (),
-        '/mypage' : (context) => MyPage (),
+        '/mypage' : (context) => const MyPage (),
+        '/help' : (context) => const HelpPage (),
+        '/chat' : (context) => ChatPage (),
+        '/edit' : (context) => EditPage (),
         '/search' : (context) => SearchPage (),
+        '/searchword' : (context) => SearchwordPage (),
         '/makeroom' : (context) => MakeroomPage (),
+        '/settingroom' : (context) => SettingroomPage (),
       },
       onGenerateRoute: _getRoute,
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const Primary = Color(0xFFFFADB0);
+const Primary = Color(0xFFFF9296);
 const SubPrimary = Color(0xFFFAE3D9);
-const Secondary = Color(0xFF03DAC5);
+const Secondary = Color(0xFF00C7C5);
 const Bar = Color(0xFFFFFFFF);
 
 const OnPrimary = Color(0xFF4E4E4E);

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -44,25 +43,25 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             const SizedBox(height: 80.0),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0,160.0,50.0,10.0),
+              padding: const EdgeInsets.fromLTRB(50.0,50.0,50.0,10.0),
               child: Column(
                 children: <Widget>[
-                  //Image.asset('assets/.png'),
-                  const SizedBox(height: 10.0),
-                  Text('가치모여', style: TextStyle(
-                    fontSize: 55,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 3
-                      ..color = Primary,
-                  ),
-                  ),
+                  Image.asset('assets/logo.png'),
+                  const SizedBox(height: 80.0),
+                  /*Text('가치모여',
+                    style: TextStyle(
+                      fontSize: 50,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 3
+                        ..color = Primary,
+                    ),
+                  ),*/
                   const SizedBox(height: 30.0),
                 ],
               ),
             ),
-            const SizedBox(height: 120.0),
-
+            //const SizedBox(height: 10.0),
             Padding(
               padding: const EdgeInsets.fromLTRB(50.0,10.0,50.0,50.0),
               child: Column(
@@ -98,8 +97,7 @@ class _LoginPageState extends State<LoginPage> {
   Future setUserinfo() async{
     final User? user_login = FirebaseAuth.instance.currentUser;
     final firestoreInstance = FirebaseFirestore.instance;
-    final QuerySnapshot result =
-    await firestoreInstance.collection('users').get();
+    final QuerySnapshot result = await firestoreInstance.collection('users').get();
     final List<DocumentSnapshot> documents = result.docs;
     List<String> localUserId = [];
     documents.forEach((data) {
@@ -111,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
           "email": user_login.email,
           "name": user_login.displayName,
           "uid": user_login.uid,
+          //"hashtag": FirebaseAuth.instance.currentUser!.hashtag,
         });
         name_user= user_login.displayName!;
         url_user = user_login.photoURL!;

@@ -17,9 +17,12 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
+bool toggle = false;
+
 class _ChatPageState extends State<ChatPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _controller = TextEditingController();
+  Color _floatingbuttonColor = TextWeak;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +50,7 @@ class _ChatPageState extends State<ChatPage> {
             icon: new Icon(Icons.settings),
             color: OnBackground,
             onPressed: () {
-              signOut();
-              Navigator.pushNamed(context, '/login',);
+              Navigator.pushNamed(context, '/settingroom',);
             },
           ),
         ],
@@ -57,9 +59,43 @@ class _ChatPageState extends State<ChatPage> {
       ),
       //backgroundColor: ChatBackground,
       backgroundColor: Background,
+      floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 200),
+            FloatingActionButton(
+              backgroundColor: _floatingbuttonColor,
+              child: Icon(
+                Icons.mic
+                //toggle ? Icons.mic : Icons.mic_none,
+                //color: toggle ? _floatingbuttonColor : Primary,
+              ),
+              onPressed: () {
+                setState(() {
+                  toggle = !toggle;
+                  if(_floatingbuttonColor == Secondary){
+                    _floatingbuttonColor = TextWeak;
+                  }
+                  else {
+                    _floatingbuttonColor = Secondary;
+                  }
+                  //backgroundColor = Background;
+                });
+              },
+            ),
+          ]
+      ),
       body: Column(children: <Widget>[
-          //Image.asset('assets/codelab.png'),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
+        Image.asset('assets/chat.png'),
+        const SizedBox(height: 10),
+        /*FloatingActionButton(
+          onPressed: () {
+            //mic on/off
+          },
+          backgroundColor: Secondary,
+          child: const Icon(Icons.mic),
+        ),*/
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
               stream: fb.collection("chats").snapshots(),
@@ -113,7 +149,7 @@ class _ChatPageState extends State<ChatPage> {
                               },
                             ),
                           ]) : Row(children: [
-                            IconButton(
+                            /*IconButton(
                               icon: const Icon(
                                 Icons.create,
                                 semanticLabel: 'edit',
@@ -124,8 +160,8 @@ class _ChatPageState extends State<ChatPage> {
                                 });
                                 //_showMyDialog();
                               },
-                            ),
-                            IconButton(
+                            ),*/
+                            /*IconButton(
                               icon: const Icon(
                                 Icons.delete,
                                 semanticLabel: 'delete',
@@ -133,7 +169,7 @@ class _ChatPageState extends State<ChatPage> {
                               onPressed: () async {
                                 _showMyDialog();
                               },
-                            ),
+                            ),*/
                           ])
                         ],
                       );
@@ -214,26 +250,25 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  Future<void> _showMyDialog() async {
+  /*Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Deletion Confirm Alert'),
+          title: Text('메세지 삭제 알림'),
           content: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Text('Are you sure to delete the message?'),
-                //Text('Would you like to confirm this message?'),
+                Text('메세지를 정말 삭제 하시겠어요?'),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Confirm'),
+              child: Text('확인'),
               onPressed: () async {
-                print('Confirmed');
+                //print('Confirmed');
                 final QuerySnapshot result = await FirebaseFirestore.instance
                     .collection('chats')
                     .get();
@@ -253,17 +288,17 @@ class _ChatPageState extends State<ChatPage> {
                       .doc(targetDoc)
                       .delete()
                       .then((data) {
-                    print("Deleted!");
+                    //print("Deleted!");
                   });
                 } else {
-                  print("not matching the user id");
-                  print(email_user);
+                  //print("not matching the user id");
+                  //print(email_user);
                 }
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Cancel'),
+              child: Text('취소'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -272,7 +307,7 @@ class _ChatPageState extends State<ChatPage> {
         );
       },
     );
-  }
+  }*/
 
   Future updateStatus(String text) async{
     final firestoreInstance = FirebaseFirestore.instance;
@@ -295,15 +330,5 @@ class _ChatPageState extends State<ChatPage> {
     });
 
     // Navigator.pop(context);
-  }
-  Future signOut() async {
-    // Trigger the authentication flow
-    final FirebaseAuth auth = await FirebaseAuth.instance;
-    await auth.signOut();
-    uid = "";
-    uid_google = "";
-    name_user = "";
-    email_user = "";
-    url_user = "";
   }
 }

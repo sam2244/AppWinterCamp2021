@@ -18,7 +18,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*drawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -29,8 +29,16 @@ class _MyPageState extends State<MyPage> {
               child: Text(''),
             ),
             ListTile(
+              leading: Icon(Icons.help),
+              title: const Text('도움말'),
+              onTap: () {
+                signOut();
+                Navigator.pushNamed(context, '/help');
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.logout),
-              title: const Text('Log Out'),
+              title: const Text('로그아웃'),
               onTap: () {
                 signOut();
                 Navigator.pushNamed(context, '/login');
@@ -38,13 +46,14 @@ class _MyPageState extends State<MyPage> {
             ),
           ],
         ),
-      ),*/
+      ),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: OnBackground),
         leading: IconButton(
           icon: new Icon(Icons.arrow_back_ios_new_rounded),
           color: OnBackground,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/home');
           },
         ),
         title: const Text('마이페이지',
@@ -52,7 +61,7 @@ class _MyPageState extends State<MyPage> {
                 color: OnBackground
             )
         ),
-        actions: <Widget>[
+        /*actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
             color: OnBackground,
@@ -61,15 +70,27 @@ class _MyPageState extends State<MyPage> {
               Navigator.pushNamed(context, '/login',);
             },
           ),
-        ],
+        ],*/
         backgroundColor: Bar,
         centerTitle: true,
+      ),
+      floatingActionButton: Column(
+          //mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const SizedBox(height: 180),
+            FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/edit',);
+              },
+              backgroundColor: Primary,
+              child: const Icon(Icons.edit),
+            ),
+          ]
       ),
     );
   }
 
   Future signOut() async {
-    // Trigger the authentication flow
     final FirebaseAuth auth = await FirebaseAuth.instance;
     await auth.signOut();
     uid = "";
