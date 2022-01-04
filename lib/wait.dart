@@ -25,7 +25,7 @@ class _WaitPageState extends State<WaitPage> {
           icon: new Icon(Icons.arrow_back_ios_new_rounded),
           color: OnBackground,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/home',);
           },
         ),
         title: const Text('대화방',
@@ -49,7 +49,7 @@ class _WaitPageState extends State<WaitPage> {
       backgroundColor: Background,
       body: Column(children: <Widget>[
         const SizedBox(height: 100),
-        Image.asset('assets/wait.png'),
+        //Image.asset('assets/wait.png'),
         const SizedBox(height: 10),
         Column(
           mainAxisSize: MainAxisSize.max,

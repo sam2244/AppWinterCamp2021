@@ -37,7 +37,7 @@ class _ChatPageState extends State<ChatPage> {
           icon: new Icon(Icons.arrow_back_ios_new_rounded),
           color: OnBackground,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/wait',);
           },
         ),
         title: const Text('대화방',
@@ -87,7 +87,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Column(children: <Widget>[
         const SizedBox(height: 10),
-        Image.asset('assets/chat.png'),
+        //Image.asset('assets/chat.png'),
         const SizedBox(height: 10),
         /*FloatingActionButton(
           onPressed: () {
@@ -318,9 +318,8 @@ class _ChatPageState extends State<ChatPage> {
     String targetDoc = "";
     String creatorUID = "";
     documents.forEach((data) {if(data['userId'] == user_uid.uid) {targetDoc = data.id;}});
-    //  modified_local =FieldValue.serverTimestamp();
-    print(targetDoc);
-    print(user_uid.uid);
+    //print(targetDoc);
+    //print(user_uid.uid);
     var firebaseUser = FirebaseAuth.instance.currentUser;
     firestoreInstance
         .collection("chats")
