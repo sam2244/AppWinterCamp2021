@@ -58,6 +58,7 @@ class MakeroomPageState extends State<MakeroomPage > {
                 _maxnumcontroller.clear();
                 _maxseccontroller.clear();
                 _hashtagcontroller.clear();
+                Navigator.pushNamed(context, '/wait',);
               }
             },
             child: const Text('완료'),
@@ -177,10 +178,10 @@ class MakeroomPageState extends State<MakeroomPage > {
       'maxsec': maxsec,
       "category": category,
       "hashtag": hashtag,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-      'email': FirebaseAuth.instance.currentUser!.email,
+      //'timestamp': DateTime.now().millisecondsSinceEpoch,
+      //'name': FirebaseAuth.instance.currentUser!.displayName,
+      //'userId': FirebaseAuth.instance.currentUser!.uid,
+      //'email': FirebaseAuth.instance.currentUser!.email,
     });
   }
   Future<String> _Category(int index) async {

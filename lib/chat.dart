@@ -327,7 +327,6 @@ class _ChatPageState extends State<ChatPage> {
         .update({"text": text}).then((_) {
       print("success!");
     });
-
     // Navigator.pop(context);
   }
 }

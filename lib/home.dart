@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'colors.dart';
 
@@ -89,8 +91,57 @@ class _HomePageState extends State<HomePage> {
             ),
           ]
       ),
-
-      body:
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('rooms').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((document) {
+              return Container(
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _RoomPanel(
+                              category: document['category'],
+                              title: document['title'],
+                              hashtag: document['hashtag'],
+                              maxnum: document['maxnum'],
+                              textStyle: TextStyle(
+                                fontSize: 15,
+                                color: TextBig,
+                              ), key: const Key("1"),
+                            ),
+                          ),
+                          IconButton(
+                            icon: new Icon(Icons.meeting_room),
+                            color: Primary,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/wait',);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+              Container(
+                child: Center(child: Text(document['title'])),
+              );
+            }).toList(),
+          );
+        },
+      ),
       //getGroupsWidget(),
       /*StreamBuilder<QuerySnapshot>(
         stream: _fireStore.collection('rooms').snapshots(),
@@ -112,7 +163,7 @@ class _HomePageState extends State<HomePage> {
             );
         },
       ),*/
-      Container(
+      /*Container(
         width: double.infinity,
         height: double.infinity,
           child: Container(
@@ -122,8 +173,6 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: _RoomPanel(
@@ -147,7 +196,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ),
+        ),*/
       );
   }
 }
@@ -193,10 +242,12 @@ Future loadGroups() async {
 }*/
 
 class _RoomPanel extends StatefulWidget {
-  _RoomPanel({required Key key, required this.title, required this.value, required this.textStyle}): super(key: key);
+  _RoomPanel({required Key key, required this.category, required this.title, required this.hashtag, required this.maxnum, required this.textStyle}): super(key: key);
 
+  String category;
   String title;
-  String value;
+  String hashtag;
+  num maxnum;
   TextStyle textStyle;
 
   @override
@@ -209,7 +260,7 @@ class _RoomPanelState extends State<_RoomPanel> {
     return Container(
       margin: const EdgeInsets.all(2),
       padding: const EdgeInsets.all(10),
-      height: 100,
+      height: 115,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
@@ -225,21 +276,48 @@ class _RoomPanelState extends State<_RoomPanel> {
         children: [
           Container(
             alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+              widget.category,
+              style: TextStyle(
+                color: TextBig,
+                fontSize: 15,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.only(bottom: 5),
             child: Text(
               widget.title,
+              style: TextStyle(
+                color: TextBig,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+              widget.hashtag,
               style: TextStyle(
                 color: TextBig,
                 fontSize: 13,
               ),
             ),
           ),
-          Expanded(
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.only(bottom: 5),
             child: Text(
-              widget.value,
-              style: widget.textStyle,
+              widget.maxnum.toString()+'명',
+              style: TextStyle(
+                color: TextBig,
+                fontSize: 13,
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
