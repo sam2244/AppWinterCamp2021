@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +14,7 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +87,29 @@ class _MyPageState extends State<MyPage> {
               child: const Icon(Icons.edit),
             ),
           ]
+      ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('users').snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView(
+              children: snapshot.data!.docs.map((document) {
+                return Container(
+                  child: Text(
+                    document['name'],
+                    style: TextStyle(
+                      color: TextBig,
+                      fontSize: 15,
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          }
       ),
     );
   }

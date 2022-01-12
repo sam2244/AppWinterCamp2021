@@ -10,6 +10,7 @@ String uid_google = "";
 String name_user= "";
 String email_user = "";
 String url_user = "";
+String hashtag = "";
 
 Future<UserCredential> signInWithAnonynous() async {
   return FirebaseAuth.instance.signInAnonymously();
@@ -110,17 +111,20 @@ class _LoginPageState extends State<LoginPage> {
           "email": user_login.email,
           "name": user_login.displayName,
           "uid": user_login.uid,
+          "hashtag": "",
           //"hashtag": FirebaseAuth.instance.currentUser!.hashtag,
         });
         name_user= user_login.displayName!;
         url_user = user_login.photoURL!;
         email_user = user_login.email!;
         uid_google = user_login.uid;
+        hashtag = "";
       }
       name_user= user_login.displayName!;
       url_user = user_login.photoURL!;
       email_user = user_login.email!;
       uid_google = user_login.uid;
+      hashtag = "";
     }
 
     else{
@@ -132,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
       name_user= user_login.uid;
       url_user =  'http://handong.edu/site/handong/res/img/logo.png';
       email_user= "Anonymous";
+      hashtag = "";
     }
   }
 }
