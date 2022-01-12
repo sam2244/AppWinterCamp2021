@@ -178,6 +178,7 @@ class MakeroomPageState extends State<MakeroomPage > {
       'maxsec': maxsec,
       "category": category,
       "hashtag": hashtag,
+      'ready': 0,
       //'timestamp': DateTime.now().millisecondsSinceEpoch,
       //'name': FirebaseAuth.instance.currentUser!.displayName,
       //'userId': FirebaseAuth.instance.currentUser!.uid,

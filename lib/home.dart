@@ -116,10 +116,12 @@ class _HomePageState extends State<HomePage> {
                               title: document['title'],
                               hashtag: document['hashtag'],
                               maxnum: document['maxnum'],
+                              ready: document['ready'],
                               textStyle: TextStyle(
                                 fontSize: 15,
                                 color: TextBig,
-                              ), key: const Key("1"),
+                              ),
+                              key: const Key("1"),
                             ),
                           ),
                           IconButton(
@@ -242,12 +244,13 @@ Future loadGroups() async {
 }*/
 
 class _RoomPanel extends StatefulWidget {
-  _RoomPanel({required Key key, required this.category, required this.title, required this.hashtag, required this.maxnum, required this.textStyle}): super(key: key);
+  _RoomPanel({required Key key, required this.category, required this.title, required this.hashtag, required this.maxnum, required this.ready, required this.textStyle}): super(key: key);
 
   String category;
   String title;
   String hashtag;
   num maxnum;
+  num ready;
   TextStyle textStyle;
 
   @override
@@ -276,7 +279,7 @@ class _RoomPanelState extends State<_RoomPanel> {
         children: [
           Container(
             alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 5),
+            padding: const EdgeInsets.only(bottom: 3),
             child: Text(
               widget.category,
               style: TextStyle(
@@ -287,36 +290,66 @@ class _RoomPanelState extends State<_RoomPanel> {
           ),
           Container(
             alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 5),
+            padding: const EdgeInsets.only(bottom: 3),
             child: Text(
               widget.title,
               style: TextStyle(
                 color: TextBig,
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
           ),
           Container(
             alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 5),
+            padding: const EdgeInsets.only(bottom: 3),
             child: Text(
               widget.hashtag,
               style: TextStyle(
                 color: TextBig,
-                fontSize: 13,
+                fontSize: 15,
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Text(
-              widget.maxnum.toString()+'명',
-              style: TextStyle(
-                color: TextBig,
-                fontSize: 13,
+          Row(
+            children: [
+              const Icon(Icons.group),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Text(
+                  widget.maxnum.toString()+'명 | ',
+                  style: TextStyle(
+                    color: TextBig,
+                    fontSize: 15,
+                  ),
+                ),
               ),
-            ),
+              if (widget.ready == 0) ...[
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    '대기 중',
+                    style: TextStyle(
+                      color: TextBig,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ] else if(widget.ready == 1)...[
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    '대화 중',
+                    style: TextStyle(
+                      color: TextBig,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ],
+            ]
           ),
         ],
       ),
