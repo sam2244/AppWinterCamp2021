@@ -286,7 +286,7 @@ class _RoomPanelState extends State<_RoomPanel> {
     return Container(
       //margin: const EdgeInsets.all(2),
       padding: const EdgeInsets.all(5),
-      height: 120,
+      height: 125,
       /*decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
