@@ -133,7 +133,9 @@ class _HomePageState extends State<HomePage> {
                               child: IconButton(
                                 icon: const Icon(Icons.meeting_room),
                                 color: OnPrimary,
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/wait',);
+                                },
                               ),
                             ),
                           ],
