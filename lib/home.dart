@@ -53,12 +53,15 @@ class _HomePageState extends State<HomePage> {
         leading: Icon(Icons.settings),
         title: const Text('가치모여',
             style: TextStyle(
-                color: OnBackground
+                fontWeight: FontWeight.w600,
+                color: OnBackground,
+                fontSize: 26,
             )
         ),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.account_circle_outlined),
+          IconButton(
+            icon: Image.asset('assets/MyIcon.png'),
+            iconSize: 50,
             color: OnBackground,
             onPressed: () {
               Navigator.pushNamed(context, '/mypage',);
@@ -68,28 +71,38 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Bar,
         centerTitle: true,
       ),
-      floatingActionButton:
-      Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              heroTag: "searchbutton",
-              onPressed: () {
-                Navigator.pushNamed(context, '/search',);
-                },
-              backgroundColor: Secondary,
-              child: const Icon(Icons.search),
-            ),
-            const SizedBox(height: 20),
-            FloatingActionButton(
-              heroTag: "makeroombutton",
-              onPressed: () {
-                Navigator.pushNamed(context, '/makeroom',);
-              },
-              backgroundColor: Secondary,
-              child: const Icon(Icons.add),
-            ),
-          ]
+      floatingActionButton:Padding(
+    padding: const EdgeInsets.only(bottom: 0, right: 5),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 63.72,
+                width: 63.72,
+                child: FloatingActionButton(
+                  heroTag: "searchbutton",
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/search',);
+                    },
+                  backgroundColor: Secondary,
+                  child: const Icon(Icons.search, size: 37),
+                ),
+              ),
+              const SizedBox(height: 22),
+              Container(
+                height: 63.72,
+                width: 63.72,
+                child: FloatingActionButton(
+                  heroTag: "makeroombutton",
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/makeroom',);
+                  },
+                  backgroundColor: Secondary,
+                  child: const Icon(Icons.add, size: 38),
+                ),
+              )
+            ]
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('rooms').snapshots(),
@@ -100,15 +113,18 @@ class _HomePageState extends State<HomePage> {
             );
           }
           //if (!snapshot.hasData) {
-            return ListView(
+            return
+              //const SizedBox(height:10),
+              ListView(
               children: snapshot.data!.docs.map((document) {
                 return Container(
                   child: Container(
-                    margin: EdgeInsets.all(10),
+                    //margin: EdgeInsets.all(10),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
+                      //mainAxisAlignment: MainAxisAlignment.start,
+                      //mainAxisSize: MainAxisSize.max,
                       children: [
+                        //const SizedBox(height:10),
                         Row(
                           children: [
                             Expanded(
@@ -125,23 +141,11 @@ class _HomePageState extends State<HomePage> {
                                 key: const Key("1"),
                               ),
                             ),
-                            Ink(
-                              decoration: const ShapeDecoration(
-                                color: Primary,
-                                shape: CircleBorder(),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(Icons.meeting_room),
-                                color: OnPrimary,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/wait',);
-                                },
-                              ),
-                            ),
+
                           ],
                         ),
                         const Divider(
-                          height: 10,
+                          height: 5,
                           thickness: 1,
                           endIndent: 0,
                           color: Colors.grey,
@@ -287,8 +291,8 @@ class _RoomPanelState extends State<_RoomPanel> {
   Widget build(BuildContext context) {
     return Container(
       //margin: const EdgeInsets.all(2),
-      padding: const EdgeInsets.all(5),
-      height: 125,
+      padding: const EdgeInsets.only(left: 31, top: 17, bottom: 14, right: 24),
+      height: 135,
       /*decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
@@ -301,95 +305,131 @@ class _RoomPanelState extends State<_RoomPanel> {
               ],
               tileMode: TileMode.repeated),
       ),*/
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(3),
-            width: 50,
-            child: Text(
-              widget.category,
-              style: TextStyle(
-                color: TextBig,
-                fontSize: 15,
-              ),
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: SubPrimary,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 3),
-            child: Text(
-              widget.title,
-              style: TextStyle(
-                  color: TextBig,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: 3),
-            child: Text(
-              widget.hashtag,
-              style: TextStyle(
-                color: TextBig,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              const Icon(
-                  Icons.group,
-                  color: TextSmall
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  widget.maxnum.toString()+'명 | ',
-                  style: TextStyle(
-                    color: TextSmall,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              if (widget.ready == 0) ...[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Container(
-                  alignment: Alignment.topLeft,
-                  padding: const EdgeInsets.only(bottom: 5),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(3),
+                  width: 50,
                   child: Text(
-                    '대기 중',
+                    widget.category,
                     style: TextStyle(
-                      color: Secondary,
+                      color: TextBig,
                       fontSize: 15,
                     ),
                   ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: SubPrimary,
+                  ),
                 ),
-              ] else if(widget.ready == 1)...[
+                const SizedBox(height: 6),
                 Container(
                   alignment: Alignment.topLeft,
-                  padding: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 4),
                   child: Text(
-                    '대화 중',
+                    widget.title,
                     style: TextStyle(
-                      color: Primary,
-                      fontSize: 15,
+                        color: TextBig,
+                        fontSize: 20,
+                        letterSpacing: -1.2,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Text(
+                    widget.hashtag,
+                    style: TextStyle(
+                      color: TextBig,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                Row(
+                    children: [
+                      const Icon(
+                          Icons.group,
+                          size: 16,
+                          color: TextSmall
+                      ),
+                      SizedBox(width: 6.6),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          widget.maxnum.toString()+'명  |  ',
+                          style: TextStyle(
+                            color: TextSmall,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      if (widget.ready == 0) ...[
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            '대기 중',
+                            style: TextStyle(
+                              color: Secondary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ] else if(widget.ready == 1)...[
+                        Container(
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Text(
+                            '대화 중',
+                            style: TextStyle(
+                              color: Primary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ]
                 ),
               ],
-            ]
+            ),
+          ),
+          Ink(
+              decoration: const ShapeDecoration(
+                color: Primary,
+                shape: CircleBorder(),
+              ),
+              child: new SizedBox(
+                  height: 54.0,
+                  width: 54.0,
+                  child: new IconButton(
+                    icon: Image.asset('assets/EnterIcon.png'),
+                    padding: new EdgeInsets.all(12.2),
+                    color: OnPrimary,
+                    //iconSize: 62,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/wait',);
+                    },
+                  )
+              )
+            /*IconButton(
+                                icon: Image.asset('assets/EnterIcon.png'),
+                                iconSize: 44,
+                                color: OnPrimary,
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/wait',);
+                                },
+                              ),*/
           ),
         ],
-      ),
+      )
+
+
     );
   }
 }

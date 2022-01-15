@@ -35,7 +35,9 @@ class MakeroomPageState extends State<MakeroomPage > {
         ),
         title: const Text('방 만들기',
             style: TextStyle(
-            color: OnBackground
+              fontWeight: FontWeight.w600,
+              color: OnBackground,
+              fontSize: 26,
             )
         ),
         actions: <Widget>[
@@ -61,7 +63,13 @@ class MakeroomPageState extends State<MakeroomPage > {
                 Navigator.pushNamed(context, '/wait',);
               }
             },
-            child: const Text('완료'),
+            child: Text(
+              '완료',
+              style: TextStyle(
+                color: TextWeak,
+                fontSize: 18,
+              ),
+            ),
           ),
         ],
         backgroundColor: Bar,
@@ -73,13 +81,37 @@ class MakeroomPageState extends State<MakeroomPage > {
             key: _formKey,
             child: Column(
               children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    '방 이름',
+                    style: TextStyle(
+                      color: TextSmall,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: Column(
                     children: [
                       TextFormField(
+                        //cursorRadius: ,
                         controller: _titlecontroller,
-                        decoration: const InputDecoration(
-                          hintText: '방 이름',
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(33.0)),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(33.0)),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          fillColor: SubPrimary,
+                          filled: true,
+
+                          //hintText: '방 이름',
+
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -88,7 +120,18 @@ class MakeroomPageState extends State<MakeroomPage > {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 18),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          '카테고리',
+                          style: TextStyle(
+                            color: TextSmall,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       CustomRadioButton(
                         buttonLables: [
                           "상담",
@@ -119,7 +162,18 @@ class MakeroomPageState extends State<MakeroomPage > {
                         unSelectedColor: Theme.of(context).canvasColor,
                         selectedColor: Theme.of(context).primaryColor,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 18),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          '최대 인원',
+                          style: TextStyle(
+                            color: TextSmall,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       TextFormField(
                         controller: _maxnumcontroller,
                         keyboardType: TextInputType.number,
@@ -133,7 +187,29 @@ class MakeroomPageState extends State<MakeroomPage > {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 18),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          '중간 참여',
+                          style: TextStyle(
+                            color: TextWeak,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          '타이머',
+                          style: TextStyle(
+                            color: TextWeak,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       TextFormField(
                         controller: _maxseccontroller,
                         keyboardType: TextInputType.number,
@@ -147,7 +223,18 @@ class MakeroomPageState extends State<MakeroomPage > {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 18),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          '방을 소개해주세요',
+                          style: TextStyle(
+                            color: TextWeak,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       TextFormField(
                         controller: _hashtagcontroller,
                         keyboardType: TextInputType.number,
