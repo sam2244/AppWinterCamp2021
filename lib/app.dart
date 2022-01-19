@@ -11,6 +11,7 @@ import 'roomsetting.dart';
 import 'search.dart';
 import 'searchword.dart';
 import 'colors.dart';
+import 'stt.dart';
 
 class ShrineApp extends StatelessWidget {
   const ShrineApp({Key? key}) : super(key: key);
@@ -36,6 +37,7 @@ class ShrineApp extends StatelessWidget {
         '/searchword' : (context) => SearchwordPage (),
         '/makeroom' : (context) => MakeroomPage (),
         '/settingroom' : (context) => SettingroomPage (),
+        '/stt' : (context) => SttPage (),
       },
       onGenerateRoute: _getRoute,
     );

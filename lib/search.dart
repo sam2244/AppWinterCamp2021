@@ -1,6 +1,6 @@
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+//import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
-
+import 'package:radio_grouped_buttons/radio_grouped_buttons.dart';
 import 'colors.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,10 +12,9 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
-  final _maxnumcontroller = TextEditingController();
-  final int _maxnum = 2;
-  final int _maxsec = 60;
+  late int _maxnum = 2;
   late int _category;
+  List<String> buttonList=["상담","면접","토론","만남","스터디","수다"];
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +27,11 @@ class _SearchPageState extends State<SearchPage> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('방 검색',
+        title: const Text('방 찾기',
             style: TextStyle(
-                color: OnBackground
+              fontWeight: FontWeight.w600,
+              color: OnBackground,
+              fontSize: 26,
             )
         ),
         actions: <Widget>[
@@ -54,49 +55,104 @@ class _SearchPageState extends State<SearchPage> {
               Expanded(
                 child: Column(
                   children: [
-                    CustomRadioButton(
-                      buttonLables: [
-                        "상담",
-                        "면접",
-                        "토론",
-                        "스터디",
-                        "만남",
-                        "수다",
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Container()
+                        ),
+                        Container(
+                          height: 37,
+                          width: 74,
+                          padding: const EdgeInsets.only(top: 10,left: 15, bottom: 8, right: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: SubPrimary,
+                          ),
+                          child: Theme(
+                              data: Theme.of(context).copyWith(
+                                canvasColor: SubPrimary,
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  value: _maxnum,
+                                  dropdownColor: SubPrimary,
+                                  underline: Container(
+                                    height: 2,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  items: <DropdownMenuItem<int>>[
+                                    new DropdownMenuItem(
+                                      child: new Text('2'),
+                                      value: 2,
+                                    ),
+                                    new DropdownMenuItem(
+                                      child: new Text('3'),
+                                      value: 3,
+                                    ),
+                                    new DropdownMenuItem(
+                                      child: new Text('4'),
+                                      value: 4,
+                                    ),
+                                  ],
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      if(value != null)
+                                        _maxnum = value;
+                                    });
+                                  },
+                                ),
+                              )
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            '명',
+                            style: TextStyle(
+                              color: TextSmall,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       ],
-                      buttonValues: [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                      ],
-                      defaultSelected: 0,
-                      //radioButtonValue: (value) => print(value),
-                      radioButtonValue: (value) {
-                        setState(() {
-                          _category = value as int;
-                        });
-                        //print(_category);
-                      },
-
-                      //_selectedbutton = value.checked,
-                      unSelectedColor: Theme.of(context).canvasColor,
-                      selectedColor: Theme.of(context).primaryColor,
                     ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: _maxnumcontroller,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '방 최대인원 (2-4(명))',
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        '카테고리',
+                        style: TextStyle(
+                          color: TextSmall,
+                          fontSize: 18,
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty || int.parse(value) < 2 || int.parse(value) > 4) {
-                          return '2-4 사이의 숫자를 입력해주세요';
-                        }
-                        return null;
-                      },
+                    ),
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 150,
+                        child: CustomRadioButton(
+                          buttonLables: buttonList,
+                          buttonValues: buttonList,
+                          buttonHeight: 36.81,
+                          fontSize: 18,
+                          buttonBorderColor: TextWeak,
+                          textColor: TextSmall,
+                          radioButtonValue: (value,index){
+                            setState(() {
+                              _category = index as int;
+                            });
+                            //print("Button value "+value.toString());
+                            //print("Integer value "+index.toString());
+                          },
+                          horizontal: true,
+                          enableShape: true,
+                          //buttonSpace: 5,
+                          buttonColor: Colors.white,
+                          selectedColor: Primary,
+                          buttonWidth: 150,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -107,5 +163,27 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
+  }
+  Future<String> _Category(int index) async {
+    String categorytext ="";
+    if(index == 0){
+      categorytext = "상담";
+    }
+    else if(index == 1){
+      categorytext = "면접";
+    }
+    else if(index == 2){
+      categorytext = "토론";
+    }
+    else if(index == 3){
+      categorytext = "만남";
+    }
+    else if(index == 4){
+      categorytext= "스터디";
+    }
+    else if(index == 5){
+      categorytext = "수다";
+    }
+    return categorytext;
   }
 }

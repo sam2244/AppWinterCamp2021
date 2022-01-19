@@ -31,9 +31,15 @@ class _MyPageState extends State<MyPage> {
             ),
             ListTile(
               leading: Icon(Icons.help),
+              title: const Text('STT'),
+              onTap: () {
+                Navigator.pushNamed(context, '/stt');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
               title: const Text('도움말'),
               onTap: () {
-                signOut();
                 Navigator.pushNamed(context, '/help');
               },
             ),
