@@ -1,5 +1,5 @@
 name: team_project
-description: A new Flutter project.
+description: team_project.
 
 publish_to: 'none'
 
@@ -16,12 +16,15 @@ dependencies:
   cloud_firestore:
   provider:
   google_sign_in:
-  http:
-  location:
-  google_maps_flutter:
-  geolocator:
-  url_launcher:
-  custom_radio_grouped_button: any
+  flutter_switch:
+  radio_grouped_buttons:
+  flutter_shapes:
+  speech_to_text:
+  permission_handler:
+  #agora_rtc_engine:
+  flutter_svg:
+  agora_rtm:
+  loader_overlay:
 
   flutter:
     sdk: flutter
@@ -43,5 +46,28 @@ flutter:
     - assets/search.png
     - assets/logo.png
     - assets/wait.png
+    - assets/group1.png
+    - assets/group2.png
+    - assets/group3.png
+    - assets/group4.png
+    - assets/fire.png
+    - assets/high_brightness.png
+    - assets/Mic.png
+    - assets/Iconography.png
+    - assets/MyIcon.png
+    - assets/EnterIcon.png
+    - assets/users.png
+    - assets/coolicon.png
+    - assets/back.png
+    - assets/check.png
+    - assets/up.png
+    - assets/wow.png
+    - assets/sad.png
+    - assets/smile.png
+    - assets/bad.png
+    - assets/wink.png
+    - assets/menu.png
+    - assets/plus.png
+    - assets/magnifier.png
 
   uses-material-design: true
